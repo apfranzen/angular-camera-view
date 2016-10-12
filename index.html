@@ -16,10 +16,10 @@
           <div class="col s12 m8">
             <div class="row">
               <div class="col s8 input-field">
-                <input type="text" placeholder="Search here">
+                <input type="text" ng-model="searchQuery">
               </div>
               <div class="col s4 input-field">
-                <select>
+                <select ng-model="selectValue" bg-init="selectValue='name'">
                   <option value="name">Name</option>
                   <option value="rating">Rating</option>
                 </select>
@@ -37,8 +37,27 @@
             </div>
           </div>
         </div>
+        <div ng-repeat="camera in cameras | orderBy:selectValue | filter:searchQuery">
+            <li>
+              {{camera.name}}
+            </li>
+            <li>
+              <img src="{{camera.image}}" alt="image">
+            </li>
+            <li>
+              {{camera.rating | orderStars}}
+            </li>
+            <li>
+              {{camera.price | currency}}
+            </li>
+            <li ng-if="camera.onSale">On Sale</li>
+        </div>
+
       </main>
     </div>
+
+
+
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="js/materialize.min.js"></script>
