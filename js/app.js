@@ -6,7 +6,7 @@
     return (number) => {
       let stars = '';
       for (var i = 0; i < number; i++) {
-        stars += '*';
+        stars += '⭐️';
       }
       return stars;
     }

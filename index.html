@@ -5,21 +5,23 @@
     <title>Camera View</title>
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
-  <body ng-init="cameras = [{id: 1,name: 'Nikon D3100 DSLR',image: 'http://ecx.images-amazon.com/images/I/713u2gDQqML._SX522_.jpg',rating: 4,price: 369.99,onSale: true},{id: 2,name: 'Canon EOS 70D',image: 'http://ecx.images-amazon.com/images/I/81U00AkAUWL._SX522_.jpg',rating: 2,price: 1099.0,onSale: false},{id: 3,name: 'Nikon D810A',image:'http://ecx.images-amazon.com/images/I/91wtXIfLl2L._SX522_.jpg',rating: 3,price: 3796.95,onSale: true}]">
-    <div class="container">
+  <body>
+    <div class="container"  ng-controller="itemsCtrl as itemsController">
       <header>
         <h1>Camera Shop</h1>
       </header>
-      <main>
+      <main ng-controller="cartManage as cartCtrl">
         <div class="row">
           <div class="col s12 m8">
             <div class="row">
               <div class="col s8 input-field">
-                <input type="text" ng-model="searchQuery">
+                <input type="text" ng-model="itemsController.searchQuery">
               </div>
               <div class="col s4 input-field">
-                <select ng-model="selectValue" bg-init="selectValue='name'">
+                {{itemsController.selectValue}}
+                <select ng-model="itemsController.selectValue">
                   <option value="name">Name</option>
                   <option value="rating">Rating</option>
                 </select>
@@ -30,29 +32,74 @@
             <div class="card blue-grey">
               <div class="card-content white-text">
                 <span class="card-title">Your Cart</span>
+
               </div>
+              <div>
+                <ul class="collection">
+                  <li class="collection-item" ng-repeat="camera in cartCtrl.itemsInCart">
+                    {{camera.quantity}} <strong>{{camera.name}}</strong>
+                    <i class="right-align material-icons">delete</i>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card-content white-text">
+                <div class="=row">
+                  <p class="col s6">
+                    Subtotal:
+                  </p>
+                  <p class="col s6 right-align">
+                    $8.99
+                  </p>
+                </div>
+                <div class="=row">
+                  <p class="col s6">
+                    Tax:
+                  </p>
+                  <p class="col s6 right-align">
+                    $8.99
+                  </p>
+                </div>
+                <div class="=row">
+                  <h3 class="col s6">
+                    Total:
+                  </h3>
+                  <h3 class="col s6 right-align">
+                    $8.99
+                  </h3>
+                </div>
+              </div>
+
               <div class="card-action">
                 <a href="#">Checkout</a>
               </div>
             </div>
           </div>
         </div>
-        <div ng-repeat="camera in cameras | orderBy:selectValue | filter:searchQuery">
-            <li>
-              {{camera.name}}
-            </li>
-            <li>
-              <img src="{{camera.image}}" alt="image">
-            </li>
-            <li>
-              {{camera.rating | orderStars}}
-            </li>
-            <li>
-              {{camera.price | currency}}
-            </li>
-            <li ng-if="camera.onSale">On Sale</li>
-        </div>
+        <hr>
+        <div ng-repeat="camera in itemsController.cameras | orderBy:itemsController.selectValue | filter:itemsController.searchQuery" class="row">
+          <div class="col s7">
 
+            <h3>
+              {{camera.name}}
+            </h3>
+            <h3>
+              {{camera.rating | orderStars}}
+            </h3>
+            <h5>
+              {{camera.price | currency}}
+            </h5>
+            <p ng-if="camera.onSale">On Sale</p>
+
+            <a class="waves-effect waves-light btn-large" ng-click="cartCtrl.addItem(camera)">Add to Cart</a>
+          </div>
+          <div class="col s5">
+            <p class="center-align">
+              <img class="responsive-img" src="{{camera.image}}" alt="image">
+            </p>
+          </div>
+          <hr>
+        </div>
       </main>
     </div>
 
@@ -62,5 +109,6 @@
     <script src="js/angular.min.js"></script>
     <script src="js/materialize.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
   </body>
 </html>
