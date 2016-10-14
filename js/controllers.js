@@ -29,7 +29,7 @@
       // if it does exist, ++ the quantity
         if (existingCamera) {
           existingCamera.quantity++
-
+          this.total(existingCamera)
         // if it does not exist, push the camera object into the cart array
         } else {
           let newCamera = {
@@ -39,12 +39,26 @@
             quantity: 1
           }
           this.itemsInCart.push(newCamera);
+          this.total(newCamera);
         }
         console.log(this.itemsInCart);
       };
 
     this.total = function(camera) {
-      
-    }
+      this.subtotal = 0;
+      this.tax = 0;
+      this.totalVar = 0;
+
+      console.log(camera);
+      this.subtotal += camera.price;
+      this.tax += (this.subtotal * .0165);
+      this.totalVar += (this.subtotal + this.tax)
+      console.log('tax: ', this.tax);
+      console.log('total: ', this.total);
+
+
+
+
+    };
     });
 })();
